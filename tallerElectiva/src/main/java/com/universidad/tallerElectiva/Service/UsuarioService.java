@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -25,6 +26,18 @@ public class UsuarioService {
         usuarios.add(usuario);
         return new UsuarioDto(usuario.getNombre().toUpperCase(), usuario.getApellido().toUpperCase());
 
+    }
+
+    public List<UsuarioDto> listaUsuarios(){
+        return usuarios.stream()
+                .map(u -> new UsuarioDto(u.getNombre().toUpperCase(),u.getApellido().toUpperCase())).collect(Collectors.toList());
+    }
+
+    public Optional<UsuarioDto> obtenerId(int id){
+        return usuarios.stream()
+                .filter(usuario -> usuario.getId() == id)
+                .map(usuario -> new UsuarioDto(usuario.getNombre().toUpperCase(), usuario.getApellido().toUpperCase()))
+                .findFirst();
     }
 
 }
